@@ -3,8 +3,16 @@
 
 set -e
 
-# Fetch current maintained Kubernetes versions
-VERSIONS=$(curl -s https://endoflife.date/api/v1/products/kubernetes | jq -r '.result.releases[] | select(.isMaintained == true).latest.name' | sort -V)
+# Keep explicitly supported legacy releases in CI even when not maintained upstream.
+LEGACY_VERSIONS=${LEGACY_VERSIONS:-"1.28.15"}
+
+# Fetch current maintained Kubernetes versions and combine with legacy pin(s).
+VERSIONS=$(
+    {
+        curl -s https://endoflife.date/api/v1/products/kubernetes | jq -r '.result.releases[] | select(.isMaintained == true).latest.name'
+        printf "%s\n" "${LEGACY_VERSIONS}" | tr ' ' '\n'
+    } | awk 'NF' | sort -V -u
+)
 
 # Build the version list for YAML
 VERSION_LINES=""

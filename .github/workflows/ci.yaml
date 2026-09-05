@@ -11,7 +11,7 @@ permissions: {}
 
 jobs:
   build:
-    runs-on: depot-ubuntu-24.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: build-${{ github.ref }}-${{ matrix.os }}-${{ matrix.version }}
       cancel-in-progress: true

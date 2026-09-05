@@ -30,8 +30,7 @@ jobs:
           title: "chore(deps): update kubernetes"
           body: |
             ## Automated Kubernetes Version Update
-            This PR updates the Kubernetes versions in the CI workflow to the latest maintained versions.
-            Source: https://endoflife.date/kubernetes
+            This PR updates the Kubernetes 1.28, 1.29, and 1.30 versions in the CI workflow to their latest stable patch releases.
+            Source: https://dl.k8s.io/release/stable-<minor>.txt
           delete-branch: true
           branch: bump/kubernetes
-

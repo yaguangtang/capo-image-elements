@@ -16,14 +16,15 @@ with the Cluster API provider for OpenStack.
 
 ### Automatic updates
 
-This repository runs nightly updates to grab the latest maintained Kubernetes versions
-and creates a pull request to update the versions in the CI workflow.
+This repository runs nightly updates to grab the latest stable patch releases for
+the supported Kubernetes 1.28, 1.29, and 1.30 minor versions and creates a pull
+request to update the versions in the CI workflow.
 
 ### Release images
 
 Upon every merge to the main branch, a CI workflow will start up a DevStack instance
-with the Cluster API provider for OpenStack. For all maintained Kubernetes releases on
-different Linux distributions, it will spin up a cluster with the image and ensure that
+with the Cluster API provider for OpenStack. For every supported Kubernetes release on
+Ubuntu 22.04 and Ubuntu 24.04, it will spin up a cluster with the image and ensure that
 it can create a cluster successfully. After this, new images will be built and
 published as a GitHub release.
 
@@ -50,15 +51,11 @@ export ELEMENTS_PATH=$PWD/elements
 export DIB_RELEASE=jammy
 export DIB_CLOUD_INIT_GROWPART_DEVICES="/"
 export DIB_SKIP_BASE_PACKAGE_INSTALL=1
-export DIB_KUBERNETES_VERSION=1.36.2
+export DIB_KUBERNETES_VERSION=1.30.14
 disk-image-create vm ubuntu-minimal block-device-kubernetes kubernetes
 ```
 
 For Ubuntu 24.04 variant, `DIB_RELEASE` should be changed to `noble`.
-
-For Debian variant, `DIB_RELEASE` should be changed to `trixie` and the `ubuntu-minimal` element to `debian-minimal`.
-
-For Rocky Linux variant, `DIB_RELEASE` should be changed to `9` and the `ubuntu-minimal` element to `rocky-container`.
 
 With `block-device-kubernetes` element we are trimming `/boot/efi` partition to 100MiB. If you need a larger EFI boot partition size or planning to use MBR boot only, change this item to `block-device-efi` or `block-device-mbr`.
 
